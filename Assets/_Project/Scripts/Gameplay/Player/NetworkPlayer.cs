@@ -1,6 +1,7 @@
 // NetworkPlayer.cs
 using UnityEngine;
 using Mirror;
+using CafeConnect3D.Gameplay.Player;
 
 public class NetworkPlayer : NetworkBehaviour
 {
@@ -93,7 +94,12 @@ public class NetworkPlayer : NetworkBehaviour
         {
             if (currentInteractable != null)
             {
-                currentInteractable.Interact(this);
+                // Get PlayerController component from this NetworkPlayer
+                PlayerController playerController = GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    currentInteractable.Interact(playerController);
+                }
             }
             else if (currentCustomer != null)
             {
@@ -123,9 +129,13 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 if (currentInteractable != interactable)
                 {
-                    currentInteractable?.OnInteractionExit(this);
-                    currentInteractable = interactable;
-                    currentInteractable.OnInteractionEnter(this);
+                    PlayerController playerController = GetComponent<PlayerController>();
+                    if (playerController != null)
+                    {
+                        currentInteractable?.OnInteractionExit(playerController);
+                        currentInteractable = interactable;
+                        currentInteractable.OnInteractionEnter(playerController);
+                    }
                 }
             }
             else
@@ -154,7 +164,11 @@ public class NetworkPlayer : NetworkBehaviour
         {
             if (currentInteractable != null)
             {
-                currentInteractable.OnInteractionExit(this);
+                PlayerController playerController = GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    currentInteractable.OnInteractionExit(playerController);
+                }
                 currentInteractable = null;
             }
             if (currentCustomer != null)

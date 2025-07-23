@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using Mirror;
+using CafeConnect3D.Networking;
 
 public class UIManager : MonoBehaviour
 {
@@ -248,7 +250,7 @@ public class UIManager : MonoBehaviour
     public void OnStartGameClicked()
     {
         // Connect to server or start hosting
-        NetworkManager networkManager = FindObjectOfType<CafeNetworkManager>();
+        CafeNetworkManager networkManager = FindObjectOfType<CafeNetworkManager>();
         if (networkManager != null)
         {
             networkManager.StartHost();
@@ -258,7 +260,7 @@ public class UIManager : MonoBehaviour
     public void OnJoinGameClicked()
     {
         // Join existing game
-        NetworkManager networkManager = FindObjectOfType<CafeNetworkManager>();
+        CafeNetworkManager networkManager = FindObjectOfType<CafeNetworkManager>();
         if (networkManager != null)
         {
             networkManager.StartClient();
@@ -268,5 +270,17 @@ public class UIManager : MonoBehaviour
     public void OnQuitGameClicked()
     {
         Application.Quit();
+    }
+
+    public void ToggleMainMenu()
+    {
+        if (mainMenuPanel != null)
+        {
+            bool isActive = mainMenuPanel.activeSelf;
+            mainMenuPanel.SetActive(!isActive);
+
+            // Pause/unpause game
+            Time.timeScale = isActive ? 1f : 0f;
+        }
     }
 }

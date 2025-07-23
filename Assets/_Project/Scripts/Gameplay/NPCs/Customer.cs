@@ -179,7 +179,14 @@ public class Customer : NetworkBehaviour
         for (int i = 0; i < itemCount; i++)
         {
             MenuItem randomItem = availableItems[Random.Range(0, availableItems.Count)];
-            currentOrder.AddItem(randomItem, 1);
+            OrderItem orderItem = new OrderItem
+            {
+                menuItemId = randomItem.id,
+                itemName = randomItem.name,
+                quantity = 1,
+                pricePerItem = randomItem.price
+            };
+            currentOrder.AddItem(orderItem);
         }
 
         hasOrdered = true;

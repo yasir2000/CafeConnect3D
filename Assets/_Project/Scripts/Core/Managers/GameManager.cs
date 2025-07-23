@@ -231,4 +231,30 @@ public class GameManager : NetworkBehaviour
         UIManager.Instance?.UpdateScore(totalCustomersServed, totalRevenue);
         AudioManager.Instance?.PlayOrderCompleteSound();
     }
+
+    public void InitializeServer()
+    {
+        if (!isServer) return;
+
+        Debug.Log("[GameManager] Initializing server...");
+
+        // Initialize game state
+        currentGameState = GameState.Playing;
+        totalCustomersServed = 0;
+        totalRevenue = 0f;
+
+        // Initialize managers
+        if (orderManager == null)
+        {
+            orderManager = FindObjectOfType<OrderManager>();
+        }
+
+        // Start customer spawning
+        if (customerPrefab != null)
+        {
+            InvokeRepeating(nameof(SpawnCustomer), 2f, customerSpawnInterval);
+        }
+
+        Debug.Log("[GameManager] Server initialization complete");
+    }
 }

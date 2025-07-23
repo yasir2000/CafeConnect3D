@@ -12,6 +12,9 @@ public class MenuManager : MonoBehaviour
 
     public static MenuManager Instance { get; private set; }
 
+    // Property for compatibility
+    public List<MenuItem> menuItems => availableMenuItems;
+
     void Awake()
     {
         if (Instance == null)
@@ -105,6 +108,11 @@ public class MenuManager : MonoBehaviour
     public void RemoveMenuItem(int itemId)
     {
         availableMenuItems.RemoveAll(item => item.id == itemId);
+    }
+
+    public MenuItem GetMenuItem(int itemId)
+    {
+        return availableMenuItems.Find(item => item.id == itemId);
     }
 
     public float GetAveragePrice()

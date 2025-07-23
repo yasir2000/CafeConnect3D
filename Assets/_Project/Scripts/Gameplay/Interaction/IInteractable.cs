@@ -3,12 +3,46 @@ using Mirror;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using CafeConnect3D.Gameplay.Player;
 
 public interface IInteractable
 {
     void Interact(PlayerController player);
     string GetInteractionPrompt();
     bool CanInteract(PlayerController player);
+
+    // Optional interaction events
+    void OnInteractionEnter(PlayerController player) { }
+    void OnInteractionExit(PlayerController player) { }
+}
+
+// BaseInteractable.cs - Base class for interactive objects
+public abstract class BaseInteractable : NetworkBehaviour, IInteractable
+{
+    [Header("Interaction Settings")]
+    public string interactionPrompt = "Press E to interact";
+
+    public abstract void Interact(PlayerController player);
+
+    public virtual string GetInteractionPrompt()
+    {
+        return interactionPrompt;
+    }
+
+    public virtual bool CanInteract(PlayerController player)
+    {
+        return true;
+    }
+
+    public virtual void OnInteractionEnter(PlayerController player)
+    {
+        // Override in derived classes if needed
+    }
+
+    public virtual void OnInteractionExit(PlayerController player)
+    {
+        // Override in derived classes if needed
+    }
 }
 
 // OrderCounter.cs

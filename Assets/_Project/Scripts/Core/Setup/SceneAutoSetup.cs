@@ -1,6 +1,7 @@
 // SceneAutoSetup.cs
 using UnityEngine;
 using System.Collections;
+using CafeConnect3D.Networking;
 
 public class SceneAutoSetup : MonoBehaviour
 {

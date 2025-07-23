@@ -66,4 +66,29 @@ public class CoffeeShopBuilder : MonoBehaviour
             Instantiate(lightPrefab, lightPos, Quaternion.identity);
         }
     }
+
+    void PlaceChairsAroundTable(Vector3 tablePosition)
+    {
+        if (chairPrefabs.Length == 0) return;
+
+        // Place 4 chairs around the table
+        Vector3[] chairOffsets = {
+            new Vector3(1.5f, 0, 0),      // Right
+            new Vector3(-1.5f, 0, 0),     // Left
+            new Vector3(0, 0, 1.5f),      // Front
+            new Vector3(0, 0, -1.5f)      // Back
+        };
+
+        for (int i = 0; i < chairOffsets.Length; i++)
+        {
+            Vector3 chairPos = tablePosition + chairOffsets[i];
+            Quaternion chairRotation = Quaternion.LookRotation(-chairOffsets[i]);
+
+            GameObject chairPrefab = chairPrefabs[Random.Range(0, chairPrefabs.Length)];
+            if (chairPrefab != null)
+            {
+                Instantiate(chairPrefab, chairPos, chairRotation);
+            }
+        }
+    }
 }

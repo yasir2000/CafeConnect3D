@@ -1,6 +1,7 @@
 // PrefabCreator.cs - Runtime prefab creation for testing
 using UnityEngine;
 using Mirror;
+using CafeConnect3D.Networking;
 
 public class PrefabCreator : MonoBehaviour
 {

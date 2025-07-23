@@ -194,4 +194,41 @@ public class OrderManager : NetworkBehaviour
         UIManager.Instance?.ShowOrderFailedMessage(orderId);
         AudioManager.Instance?.PlayOrderFailedSound();
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSubmitOrder(uint playerId, OrderItem[] orderItems)
+    {
+        Order newOrder = CreateOrder(playerId, orderItems);
+        if (newOrder != null)
+        {
+            // For server-side orders, we'll add directly to the active orders
+            activeOrders[(uint)newOrder.orderId] = newOrder;
+            OnOrderReceived?.Invoke(newOrder);
+        }
+    }
+
+    public Order CreateOrder(uint playerId, OrderItem[] orderItems)
+    {
+        uint orderId = (uint)(activeOrders.Count + 1000);
+
+        Order order = new Order
+        {
+            orderId = (int)orderId,
+            playerId = playerId,
+            customerId = playerId,
+            items = new List<OrderItem>(orderItems),
+            status = OrderStatus.Pending,
+            orderTime = Time.time
+        };
+
+        // Calculate total price
+        float total = 0f;
+        foreach (var item in orderItems)
+        {
+            total += item.GetItemTotal();
+        }
+        order.totalPrice = total;
+
+        return order;
+    }
 }

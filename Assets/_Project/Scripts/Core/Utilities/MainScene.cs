@@ -1,6 +1,7 @@
 // MainScene.cs - Scene initialization script
 using UnityEngine;
 using Mirror;
+using CafeConnect3D.Networking;
 
 public class MainScene : MonoBehaviour
 {

@@ -1,6 +1,7 @@
 // CafeClient.cs
 using Mirror;
 using UnityEngine;
+using CafeConnect3D.Networking;
 
 public class CafeClient : MonoBehaviour
 {

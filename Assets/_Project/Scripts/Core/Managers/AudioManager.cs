@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
         PlayAmbientSounds();
     }
 
-    void PlayBackgroundMusic()
+    public void PlayBackgroundMusic()
     {
         if(backgroundMusic != null)
         {

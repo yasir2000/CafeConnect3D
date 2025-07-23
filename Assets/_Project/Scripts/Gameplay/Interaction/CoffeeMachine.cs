@@ -1,6 +1,7 @@
 // CoffeeMachine.cs
 using UnityEngine;
 using Mirror;
+using CafeConnect3D.Gameplay.Player;
 
 public class CoffeeMachine : BaseInteractable
 {
@@ -19,9 +20,8 @@ public class CoffeeMachine : BaseInteractable
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        interactionText = "Press E to brew coffee";
-        requiredRole = NetworkPlayer.PlayerRole.Barista;
-        requiresSpecificRole = true;
+        // Set interaction prompt through the base class property
+        interactionPrompt = "Press E to brew coffee";
     }
 
     void Update()
@@ -38,20 +38,20 @@ public class CoffeeMachine : BaseInteractable
         }
     }
 
-    public override bool CanInteract(NetworkPlayer player)
+    public override bool CanInteract(PlayerController player)
     {
-        return base.CanInteract(player) && !isBrewing;
+        return !isBrewing;
     }
 
-    public override string GetInteractionText()
+    public override string GetInteractionPrompt()
     {
         if (isBrewing)
             return $"Brewing... {(brewProgress * 100):F0}%";
 
-        return base.GetInteractionText();
+        return "Press E to start brewing coffee";
     }
 
-    public override void Interact(NetworkPlayer player)
+    public override void Interact(PlayerController player)
     {
         if (!CanInteract(player)) return;
 
@@ -63,8 +63,6 @@ public class CoffeeMachine : BaseInteractable
         {
             CmdStartBrewing();
         }
-
-        SetLastInteractionTime();
     }
 
     [Command(requiresAuthority = false)]

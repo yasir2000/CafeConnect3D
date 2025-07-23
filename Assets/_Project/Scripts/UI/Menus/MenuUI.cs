@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Mirror;
+using CafeConnect3D.Gameplay.Player;
 
 public class MenuUI : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class MenuUI : MonoBehaviour
         menuItemUIs.Clear();
 
         MenuManager menuManager = FindObjectOfType<MenuManager>();
-        MenuItem[] allItems = menuManager.menuItems;
+        List<MenuItem> allItems = menuManager.menuItems;
 
         foreach(MenuItem item in allItems)
         {

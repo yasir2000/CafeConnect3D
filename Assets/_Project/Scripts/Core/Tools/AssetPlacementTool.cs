@@ -373,7 +373,7 @@ public class AssetPlacementTool : MonoBehaviour
             {
                 // Create placeholder table
                 tablePrefab = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                tablePrefab.GetComponent<Renderer>().material.color = Color.brown;
+                tablePrefab.GetComponent<Renderer>().material.color = new Color(0.6f, 0.4f, 0.2f); // Brown color
                 tablePrefab.transform.localScale = new Vector3(1.5f, 0.1f, 1.5f);
             }
 

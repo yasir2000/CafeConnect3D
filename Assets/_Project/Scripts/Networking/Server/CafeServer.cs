@@ -3,7 +3,9 @@ using Mirror;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CafeServer : NetworkBehaviour
+namespace CafeConnect3D.Networking
+{
+    public class CafeServer : NetworkBehaviour
 {
     [Header("Server Settings")]
     public int maxPlayersPerRoom = 20;
@@ -33,21 +35,23 @@ public class CafeServer : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        RegisterNetworkHandlers();
+    }
+
+    void RegisterNetworkHandlers()
+    {
         NetworkServer.RegisterHandler<PlayerJoinMessage>(OnPlayerJoin);
         NetworkServer.RegisterHandler<PlayerOrderMessage>(OnPlayerOrder);
         NetworkServer.RegisterHandler<PlayerInteractionMessage>(OnPlayerInteraction);
     }
 
-    void OnPlayerJoin(NetworkConnection conn, PlayerJoinMessage message)
+    void OnPlayerJoin(NetworkConnectionToClient conn, PlayerJoinMessage message)
     {
-        PlayerData newPlayer = new PlayerData
-        {
-            connectionId = conn.connectionId,
-            playerName = message.playerName,
-            joinTime = NetworkTime.time
-        };
+        PlayerData newPlayer = new PlayerData((uint)conn.connectionId, message.playerName);
+        newPlayer.position = Vector3.zero;
+        newPlayer.rotation = Quaternion.identity;
 
-        connectedPlayers[conn.connectionId] = newPlayer;
+        connectedPlayers[(uint)conn.connectionId] = newPlayer;
 
         // Send welcome message
         conn.Send(new WelcomeMessage
@@ -59,20 +63,26 @@ public class CafeServer : NetworkBehaviour
         Debug.Log($"Player {message.playerName} joined. Total players: {connectedPlayers.Count}");
     }
 
-    void OnPlayerOrder(NetworkConnection conn, PlayerOrderMessage message)
+    void OnPlayerOrder(NetworkConnectionToClient conn, PlayerOrderMessage message)
     {
         // Validate order
         if(ValidateOrder(message.orderItems))
         {
             // Process order through OrderManager
             OrderManager orderManager = FindObjectOfType<OrderManager>();
-            orderManager.CmdSubmitOrder(conn.identity.netId, message.orderItems);
+            orderManager.CmdSubmitOrder((uint)conn.connectionId, message.orderItems);
         }
         else
         {
             // Send error message
             conn.Send(new OrderErrorMessage { error = "Invalid order items" });
         }
+    }
+
+    void OnPlayerInteraction(NetworkConnectionToClient conn, PlayerInteractionMessage message)
+    {
+        // Handle player interactions
+        Debug.Log($"Player {message.playerId} interacted with {message.targetObjectId}");
     }
 
     bool ValidateOrder(OrderItem[] items)
@@ -118,4 +128,6 @@ public struct WelcomeMessage : NetworkMessage
 public struct OrderErrorMessage : NetworkMessage
 {
     public string error;
+}
+
 }
