@@ -71,7 +71,7 @@ git push -u origin main
 
 **Repository Name:** `CafeConnect3D`
 
-**Description:** 
+**Description:**
 ```
 🎮 Multiplayer 3D Coffee Shop Simulation Game built with Unity & Mirror Networking. Features customer AI, order management, role-based gameplay, and real-time multiplayer experience.
 ```

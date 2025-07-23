@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     private Dictionary<string, AudioClip> audioClips;
+    private Dictionary<string, Vector3> equipmentPositions;
 
     void Awake()
     {
@@ -44,6 +45,7 @@ public class AudioManager : MonoBehaviour
     void InitializeAudioSystem()
     {
         audioClips = new Dictionary<string, AudioClip>();
+        equipmentPositions = new Dictionary<string, Vector3>();
 
         // Register audio clips
         audioClips["background_music"] = backgroundMusic;
@@ -185,6 +187,50 @@ public class AudioManager : MonoBehaviour
         if (brewCompleteSound != null && sfxSource != null)
         {
             sfxSource.PlayOneShot(brewCompleteSound);
+        }
+    }
+
+    // Asset Manager Integration
+    public void RegisterEquipmentPosition(string equipmentName, Vector3 position)
+    {
+        equipmentPositions[equipmentName] = position;
+        Debug.Log($"Registered equipment audio position: {equipmentName} at {position}");
+    }
+
+    public void PlayEquipmentSound(string equipmentName, AudioClip clip)
+    {
+        if (equipmentPositions.ContainsKey(equipmentName))
+        {
+            Vector3 position = equipmentPositions[equipmentName];
+            PlaySpatialSound(clip, position);
+        }
+        else
+        {
+            // Fallback to regular SFX
+            if (sfxSource != null)
+            {
+                sfxSource.PlayOneShot(clip);
+            }
+        }
+    }
+
+    void PlaySpatialSound(AudioClip clip, Vector3 worldPosition)
+    {
+        if (clip != null)
+        {
+            GameObject tempAudioSource = new GameObject("TempAudio_" + clip.name);
+            tempAudioSource.transform.position = worldPosition;
+
+            AudioSource spatialSource = tempAudioSource.AddComponent<AudioSource>();
+            spatialSource.clip = clip;
+            spatialSource.volume = sfxSource.volume;
+            spatialSource.spatialBlend = 1f; // 3D sound
+            spatialSource.rolloffMode = AudioRolloffMode.Linear;
+            spatialSource.maxDistance = 10f;
+            spatialSource.Play();
+
+            // Destroy after clip finishes
+            Destroy(tempAudioSource, clip.length + 0.1f);
         }
     }
 }

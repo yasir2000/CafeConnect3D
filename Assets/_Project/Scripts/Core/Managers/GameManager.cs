@@ -20,6 +20,11 @@ public class GameManager : NetworkBehaviour
     public GameObject customerPrefab;
     public GameObject playerPrefab;
 
+    [Header("Asset Integration")]
+    public AssetManager assetManager;
+    public AssetPlacementTool placementTool;
+    public TableManager tableManager;
+
     private List<Customer> activeCustomers = new List<Customer>();
     private List<NetworkPlayer> connectedPlayers = new List<NetworkPlayer>();
     private OrderManager orderManager;
@@ -50,9 +55,71 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         orderManager = FindObjectOfType<OrderManager>();
+
+        // Initialize asset management
+        InitializeAssetSystems();
+
         if (isServer)
         {
             StartGame();
+        }
+    }
+
+    void InitializeAssetSystems()
+    {
+        // Find or wait for AssetManager
+        if (assetManager == null)
+        {
+            assetManager = AssetManager.Instance;
+        }
+
+        // Find or create AssetPlacementTool
+        if (placementTool == null)
+        {
+            placementTool = FindObjectOfType<AssetPlacementTool>();
+        }
+
+        // Find or create TableManager
+        if (tableManager == null)
+        {
+            tableManager = GetComponent<TableManager>();
+            if (tableManager == null)
+            {
+                tableManager = gameObject.AddComponent<TableManager>();
+            }
+        }
+
+        // Update spawn points and seating from placement tool
+        UpdateSpawnPointsFromPlacement();
+    }
+
+    void UpdateSpawnPointsFromPlacement()
+    {
+        if (placementTool != null)
+        {
+            // Get customer spawn points from placement tool
+            CustomerSpawn[] spawns = FindObjectsOfType<CustomerSpawn>();
+            if (spawns.Length > 0)
+            {
+                customerSpawnPoints = new Transform[spawns.Length];
+                for (int i = 0; i < spawns.Length; i++)
+                {
+                    customerSpawnPoints[i] = spawns[i].transform;
+                }
+            }
+
+            // Get table positions for seating
+            List<Transform> tables = placementTool.GetTableTransforms();
+            if (tables.Count > 0)
+            {
+                customerSeatPositions = tables.ToArray();
+
+                // Register with table manager
+                if (tableManager != null)
+                {
+                    tableManager.RegisterTables(tables);
+                }
+            }
         }
     }
 
@@ -77,8 +144,31 @@ public class GameManager : NetworkBehaviour
         if (activeCustomers.Count >= maxCustomers || currentGameState != GameState.Playing)
             return;
 
-        Transform spawnPoint = customerSpawnPoints[Random.Range(0, customerSpawnPoints.Length)];
-        GameObject customerObj = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
+        // Use AssetManager to get random customer if available
+        GameObject customerToSpawn = customerPrefab;
+        if (assetManager != null)
+        {
+            GameObject randomCustomer = assetManager.GetRandomCustomer();
+            if (randomCustomer != null)
+            {
+                customerToSpawn = randomCustomer;
+            }
+        }
+
+        // Get spawn point (fallback to default if needed)
+        Vector3 spawnPosition = Vector3.zero;
+        if (customerSpawnPoints != null && customerSpawnPoints.Length > 0)
+        {
+            Transform spawnPoint = customerSpawnPoints[Random.Range(0, customerSpawnPoints.Length)];
+            spawnPosition = spawnPoint.position;
+        }
+        else
+        {
+            // Fallback spawn position
+            spawnPosition = new Vector3(Random.Range(-5f, 5f), 0f, 10f);
+        }
+
+        GameObject customerObj = Instantiate(customerToSpawn, spawnPosition, Quaternion.identity);
         NetworkServer.Spawn(customerObj);
 
         Customer customer = customerObj.GetComponent<Customer>();

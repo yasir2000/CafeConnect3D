@@ -13,48 +13,59 @@ cd "c:\Users\yasir\Downloads\Caffe Connect 3d\files"
 
 ### 2. Create Test Scene (In Unity)
 1. **File** → **New Scene** → **Save as** "TestScene"
-2. **GameObject** → **Create Empty** → Name: "GameSetup"
-3. **Add Components to GameSetup:**
-   - `MainScene`
-   - `PrefabCreator`
-   - `SceneSetup`
+2. **GameObject** → **Create Empty** → Name: "SceneSetup"
+3. **Add Components to SceneSetup:**
+   - `SceneAutoSetup` (This replaces MainScene, PrefabCreator, and SceneSetup)
+   - Configure settings in inspector:
+     - ✅ Setup On Start
+     - ✅ Create Floor
+     - ✅ Setup Asset Placement
+     - ✅ Setup Networking
 
-### 3. Add Network Manager
-1. **GameObject** → **Create Empty** → Name: "NetworkManager"
-2. **Add Component:** `CafeNetworkManager`
-
-### 4. Add Basic Floor
-1. **GameObject** → **3D Object** → **Plane**
-2. **Scale:** Set to (20, 1, 20) for large floor
-
-### 5. Press PLAY!
-- Game will auto-initialize everything
+### 3. Configure Asset Management (Optional)
+1. **GameObject** → **Create Empty** → Name: "AssetManager"
+2. **Add Component:** `AssetManager`
+3. **Drag your 3D models** into the appropriate asset arrays:
+   - Customer Assets → Business Customers, Student Customers, etc.
+   - Furniture Assets → Tables, Chairs, Equipment
+   - Prop Assets → Coffee Cups, Food Items, Decorations
+### 4. Press PLAY!
+- **SceneAutoSetup** will automatically create everything:
+  - ✅ Floor, lighting, and basic environment
+  - ✅ AssetManager and AssetPlacementTool
+  - ✅ All game managers (GameManager, UIManager, etc.)
+  - ✅ CafeNetworkManager with networking
+  - ✅ Automatic coffee shop layout with tables and equipment
+  - ✅ Customer spawn points and seating areas
 - NetworkManager HUD should appear
 - Press **"H"** to Host or **"C"** to Connect
 
 ---
 
-## 🎮 FULL GAME SETUP (10 Minutes)
+## 🎮 FULL GAME SETUP (5 Minutes)
 
 ### Scene Setup Checklist:
 ```
-✅ NetworkManager (CafeNetworkManager)
-✅ GameManager (auto-created)
-✅ AudioManager (auto-created)
-✅ UIManager (auto-created)
-✅ OrderManager (auto-created)
-✅ MenuManager (auto-created)
-✅ Floor plane (scaled 20x20x20)
-✅ Main Camera
-✅ Directional Light
+✅ SceneAutoSetup (auto-creates everything below)
+✅ AssetManager (handles 3D model loading)
+✅ AssetPlacementTool (automatic coffee shop layout)
+✅ CafeNetworkManager (networking)
+✅ GameManager (game logic)
+✅ AudioManager (spatial sound)
+✅ UIManager (interface)
+✅ OrderManager (order workflow)
+✅ MenuManager (menu system)
+✅ TableManager (seating management)
+✅ Floor, lighting, and camera
 ```
 
-### Required Components Flow:
+### Asset Integration Flow:
 ```
-MainScene → Creates managers if missing
-PrefabCreator → Creates player/customer prefabs
-SceneSetup → Initializes all systems
-CafeNetworkManager → Handles networking
+SceneAutoSetup → Creates all managers and systems
+AssetManager → Loads and manages 3D models
+AssetPlacementTool → Automatically arranges coffee shop
+TableManager → Manages customer seating
+GameManager → Coordinates everything
 ```
 
 ---
@@ -82,25 +93,27 @@ CafeNetworkManager → Handles networking
 
 ## 🎯 Game Features You'll See:
 
-### Immediate (No Setup):
-- ✅ Customer AI spawning
-- ✅ Pathfinding to seats
-- ✅ Order generation
+### Immediate (No 3D Models):
+- ✅ Automatic coffee shop layout with placeholder objects
+- ✅ Customer AI spawning and pathfinding
+- ✅ Order generation and workflow
 - ✅ Network synchronization
-- ✅ Audio system
-- ✅ UI notifications
+- ✅ Spatial audio system
+- ✅ Real-time UI notifications
+- ✅ Table and seating management
 
-### With Basic Prefabs:
-- ✅ Player movement (WASD)
-- ✅ Customer interaction (E key)
-- ✅ Order taking workflow
-- ✅ Real-time order board
+### With Your 3D Models:
+- ✅ Realistic customer variations (business, student, elderly, etc.)
+- ✅ Professional coffee shop furniture and equipment
+- ✅ Interactive props (coffee cups, food items, laptops)
+- ✅ Atmospheric decorations (plants, art, menu boards)
+- ✅ Complete visual coffee shop experience
 
-### Advanced (Add 3D Models):
-- Coffee shop environment
-- Realistic customer models
-- Interactive equipment
-- Complete visual experience
+### Advanced Features:
+- ✅ Automatic asset placement and scene generation
+- ✅ Dynamic customer behavior based on asset types
+- ✅ Equipment-based spatial audio
+- ✅ Modular scene management
 
 ---
 

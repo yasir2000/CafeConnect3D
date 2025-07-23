@@ -26,6 +26,7 @@ public class Customer : NetworkBehaviour
     public Transform targetSeat;
     private float stateTimer;
     private MenuManager menuManager;
+    private TableManager tableManager;
 
     public enum CustomerState
     {
@@ -46,6 +47,7 @@ public class Customer : NetworkBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.speed = walkSpeed;
         menuManager = FindObjectOfType<MenuManager>();
+        tableManager = FindObjectOfType<TableManager>();
 
         if (isServer)
         {
@@ -73,11 +75,27 @@ public class Customer : NetworkBehaviour
     }
 
     [Server]
-    public void Initialize(Transform seat)
+    public void Initialize(Transform seat = null)
     {
-        targetSeat = seat;
-        currentState = CustomerState.MovingToSeat;
-        navAgent.SetDestination(seat.position);
+        // Use TableManager to find available seat if none provided
+        if (seat == null && tableManager != null)
+        {
+            seat = tableManager.GetRandomAvailableTable();
+        }
+
+        if (seat != null)
+        {
+            targetSeat = seat;
+            currentState = CustomerState.MovingToSeat;
+            navAgent.SetDestination(seat.position);
+        }
+        else
+        {
+            // Fallback: create default target position
+            Vector3 fallbackSeat = transform.position + new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+            currentState = CustomerState.MovingToSeat;
+            navAgent.SetDestination(fallbackSeat);
+        }
     }
 
     [Server]
