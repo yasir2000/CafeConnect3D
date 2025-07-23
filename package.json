@@ -1,0 +1,17 @@
+{
+  "name": "com.cafeconnect3d.cafeconnect3d",
+  "displayName": "CafeConnect3D",
+  "version": "1.0.0",
+  "description": "Multiplayer 3D Coffee Shop Simulation Game",
+  "unity": "2022.3",
+  "keywords": [
+    "multiplayer",
+    "networking",
+    "coffee-shop",
+    "simulation",
+    "3d"
+  ],
+  "author": {
+    "name": "CafeConnect3D Team"
+  }
+}
