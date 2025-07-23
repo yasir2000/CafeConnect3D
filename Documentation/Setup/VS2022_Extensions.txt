@@ -1,0 +1,22 @@
+Essential Extensions for Unity 3D Network Game Development:
+
+Core Extensions:
+1. Unity Tools for Visual Studio
+2. Visual Studio IntelliCode
+3. GitHub Extension for Visual Studio
+4. GitLens — Git supercharged
+5. SonarLint for Visual Studio
+
+Network Development:
+6. .NET Object Reference
+7. Code Maid
+8. Productivity Power Tools
+9. Visual Studio Spell Checker
+10. Bracket Pair Colorizer
+
+Optional but Recommended:
+11. Roslynator
+12. File Icons
+13. Output Enhancer
+14. Rainbow Braces
+15. Live Share

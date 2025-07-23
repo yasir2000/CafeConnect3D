@@ -1,0 +1,69 @@
+CafeConnect3D/                          # Root project directory
+├── Assets/                             # Unity Assets folder
+│   ├── _Project/                       # Main project assets
+│   │   ├── Art/                        # All visual assets
+│   │   │   ├── Models/                 # 3D models
+│   │   │   │   ├── Characters/         # Player models, NPCs
+│   │   │   │   ├── Environment/        # Coffee shop assets
+│   │   │   │   └── Props/              # Tables, chairs, etc.
+│   │   │   ├── Textures/              # All texture files
+│   │   │   ├── Materials/             # Unity materials
+│   │   │   ├── Animations/            # Animation files
+│   │   │   └── UI/                    # UI sprites and icons
+│   │   ├── Audio/                     # All audio assets
+│   │   │   ├── Music/                 # Background music
+│   │   │   ├── SFX/                   # Sound effects
+│   │   │   └── Voice/                 # Voice acting (if any)
+│   │   ├── Scripts/                   # All C# scripts
+│   │   │   ├── Core/                  # Core game systems
+│   │   │   │   ├── Managers/          # Singleton managers
+│   │   │   │   ├── Data/              # Data structures
+│   │   │   │   └── Utilities/         # Helper classes
+│   │   │   ├── Networking/            # Network-related scripts
+│   │   │   │   ├── Server/            # Server-side logic
+│   │   │   │   ├── Client/            # Client-side logic
+│   │   │   │   └── Shared/            # Shared network code
+│   │   │   ├── Gameplay/              # Game logic scripts
+│   │   │   │   ├── Player/            # Player controllers
+│   │   │   │   ├── NPCs/              # NPC behaviors
+│   │   │   │   ├── Interaction/       # Interaction systems
+│   │   │   │   └── Orders/            # Order management
+│   │   │   ├── UI/                    # User interface scripts
+│   │   │   │   ├── Menus/             # Menu systems
+│   │   │   │   ├── HUD/               # In-game UI
+│   │   │   │   └── Dialogs/           # Dialog boxes
+│   │   │   └── Testing/               # Test scripts
+│   │   ├── Prefabs/                   # Unity prefabs
+│   │   │   ├── Characters/            # Player and NPC prefabs
+│   │   │   ├── Environment/           # Environment prefabs
+│   │   │   ├── UI/                    # UI prefabs
+│   │   │   └── Network/               # Network objects
+│   │   ├── Scenes/                    # Unity scenes
+│   │   │   ├── Main/                  # Main game scenes
+│   │   │   ├── Testing/               # Test scenes
+│   │   │   └── UI/                    # UI scenes
+│   │   └── Settings/                  # ScriptableObjects
+│   │       ├── GameSettings/          # Game configuration
+│   │       ├── NetworkSettings/       # Network configuration
+│   │       └── AudioSettings/         # Audio configuration
+│   ├── Plugins/                       # Third-party plugins
+│   │   ├── Mirror/                    # Mirror Networking
+│   │   └── Other/                     # Other plugins
+│   ├── StreamingAssets/               # Runtime assets
+│   └── Resources/                     # Loadable resources
+├── ProjectSettings/                    # Unity project settings
+├── UserSettings/                       # User-specific settings
+├── Packages/                          # Package Manager packages
+├── Logs/                              # Unity logs
+├── Library/                           # Unity cache (ignored)
+├── Temp/                              # Temporary files (ignored)
+├── Build/                             # Build outputs
+│   ├── Client/                        # Client builds
+│   └── Server/                        # Server builds
+├── Documentation/                     # Project documentation
+│   ├── API/                           # Code documentation
+│   ├── Design/                        # Game design docs
+│   └── Setup/                         # Setup guides
+└── Tools/                             # Development tools
+    ├── Scripts/                       # Build scripts
+    └── Utilities/                     # Development utilities

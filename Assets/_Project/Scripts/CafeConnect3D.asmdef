@@ -1,0 +1,18 @@
+{
+    "name": "CafeConnect3D",
+    "rootNamespace": "CafeConnect3D",
+    "references": [
+        "Mirror",
+        "Unity.TextMeshPro",
+        "Unity.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
